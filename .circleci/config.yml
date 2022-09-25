@@ -69,4 +69,5 @@ workflows:
     jobs:
       # - welcome/run
       - print_greetings
-      - configure_infrastructure
+      - create_infrastructure
+      
