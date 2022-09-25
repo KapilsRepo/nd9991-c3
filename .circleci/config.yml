@@ -53,7 +53,7 @@ jobs:
           - checkout
           #add the fingerprint from the circleci - refer project settings
           - add_ssh_keys:
-                  fingerprints: ["eb:04:4a:91:94:e8:8c:51:dd:78:f7:ef:c1:95:43:27"]
+                  fingerprints: ["98:09:d1:89:f1:af:60:2c:e3:54:71:c7:4d:c4:f1:50"]
           - run:
               name: Install Ansible
               command: |
