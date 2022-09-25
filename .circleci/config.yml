@@ -81,6 +81,24 @@ jobs:
                   return 1
                 fi
 
+  # Execute the bucket.yml - Deploy an S3 bucket and interface with that bucket to synchornise the 
+  # files b/w local and the bucket. 
+  create_and_deploy_front_end:
+        docker:
+          - image: amazon/aws-cli
+        steps:
+          - checkout
+          - run:
+              name: Executive bucket.yml - Create Cloudformation Stack
+              command: |
+                aws cloudformation deploy \
+                -- template-file bucket.yml \
+                -- stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
+                -- parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:7}"
+          #- run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
+
+  
+
 # Exercise: Config and Deployment
   configure_infrastructure:
         docker:
@@ -105,11 +123,14 @@ workflows:
     jobs:
       # - welcome/run
       - print_greetings
-      - create_infrastructure:
-          requires:
+      - create_and_deploy_front_end:
+           requires:
             - print_greetings
-      - smoke_test:
-          requires:
-            - create_infrastructure
+      #- create_infrastructure:
+      #    requires:
+      #     - print_greetings
+      #- smoke_test:
+      #    requires:
+      #      - create_infrastructure
 
       
