@@ -63,7 +63,7 @@ jobs:
               command: |
                 return 1  #simulate error, cause the job to fail
           - destroy_environment
-            when: on_fail
+              when: on_fail
 
   smoke_test1:
         docker: 
