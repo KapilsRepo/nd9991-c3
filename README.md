@@ -6,3 +6,6 @@ Spin up the server again.
 
 @25-09-2022 12:49
 re-attempt to spin up the server.
+
+@25-09-2022 14.16
+re-attempt configuration
