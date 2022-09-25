@@ -46,7 +46,7 @@ jobs:
                   --region us-east-1
 
 # Exercise: Config and Deployment
-configure_infrastructure:
+  configure_infrastructure:
         docker:
           - image: python:3.7-alpine3.11
         steps:
@@ -62,7 +62,6 @@ configure_infrastructure:
               name: Run Playbook and configure server
               command: |
                 ansible-playbook -i inventory main-remote.yml
-
 workflows:
   # Name the workflow "welcome"
   my_workflow:
