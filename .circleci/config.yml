@@ -126,11 +126,5 @@ workflows:
       - create_and_deploy_front_end:
            requires:
             - print_greetings
-      #- create_infrastructure:
-      #    requires:
-      #     - print_greetings
-      #- smoke_test:
-      #    requires:
-      #      - create_infrastructure
-
+     
       
