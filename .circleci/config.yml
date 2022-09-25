@@ -53,6 +53,22 @@ jobs:
                   --template-file template.yml \
                   --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7} \
                   --region us-east-1
+  # Execute the bucket.yml - Deploy an S3 bucket and interface with that bucket to synchornise the 
+  # files b/w local and the bucket. 
+  create_and_deploy_front_end:
+        docker:
+          - image: amazon/aws-cli
+        steps:
+          - checkout
+          - run:
+              name: Executive bucket.yml - Create Cloudformation Stack
+              command: |
+                aws cloudformation deploy \
+                  -- template-file bucket.yml \
+                  -- stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
+                  -- parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:7}"
+          #- run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
+          
   smoke_test:
         docker:
           - image: amazon/aws-cli
@@ -80,25 +96,6 @@ jobs:
                 else 
                   return 1
                 fi
-
-  # Execute the bucket.yml - Deploy an S3 bucket and interface with that bucket to synchornise the 
-  # files b/w local and the bucket. 
-  create_and_deploy_front_end:
-        docker:
-          - image: amazon/aws-cli
-        steps:
-          - checkout
-          - run:
-              name: Executive bucket.yml - Create Cloudformation Stack
-              command: |
-                aws cloudformation deploy \
-                  -- template-file bucket.yml \
-                  -- stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
-                  -- parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:7}"
-          #- run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
-
-  
-
 # Exercise: Config and Deployment
   configure_infrastructure:
         docker:
