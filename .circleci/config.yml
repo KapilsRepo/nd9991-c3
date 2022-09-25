@@ -24,7 +24,7 @@ commands:
           name: Destroy Env.
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name mystack-$(CIRCLE_WORKFLOW_ID:0:5)
+            aws cloudformation delete-stack --stack-name mystack-$(CIRCLE_WORKFLOW_ID:0:7)
 
 # Define the jobs we want to run for this project
 jobs:
@@ -51,7 +51,7 @@ jobs:
               command: |
                 aws cloudformation deploy \
                   --template-file template.yml \
-                  --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+                  --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7} \
                   --region us-east-1
   smoke_test:
         docker:
@@ -105,6 +105,7 @@ workflows:
     jobs:
       # - welcome/run
       - print_greetings
+      - create_infrastructure
       - smoke_test
 
       
