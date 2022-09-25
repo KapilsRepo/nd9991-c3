@@ -58,10 +58,10 @@ jobs:
           - image: amazon/aws-cli
         steps:
           - checkout
-          -run:
-            name: simulate_error
-            command: |
-              return 1  #simulate error, cause the job to fail
+          - run:
+              name: simulate_error
+              command: |
+                return 1  #simulate error, cause the job to fail
           - destroy_environment
             when: on_ fail
 
