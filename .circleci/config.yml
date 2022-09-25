@@ -28,8 +28,8 @@ jobs:
     steps:
       - print_pipeline_id:
           id: << pipeline.id >>
-      - run: echo HELLO
-      - run: echo WORLD
+      - run: echo UPDATE
+      - run: echo NEW SERVER
       - run: echo $_env_name
 
   create_infrastructure: 
@@ -45,6 +45,24 @@ jobs:
                   --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
                   --region us-east-1
 
+# Exercise: Config and Deployment
+configure_infrastructure:
+        docker:
+          - image: python:3.7-alpine3.11
+        steps:
+          - checkout
+          #add the fingerprint from the circleci - refer project settings
+          - add_ssh_keys:
+                  fingerprints: ["de:16:25:3d:45:09:52:8c:35:bb:75:6a:08:8c:67:a5"]
+          - run:
+              name: Install Ansible
+              command: |
+                apk add --update ansible
+          - run:
+              name: Run Playbook and configure server
+              command: |
+                ansible-playbook -i inventory main-remote.yml
+
 workflows:
   # Name the workflow "welcome"
   my_workflow:
@@ -52,4 +70,4 @@ workflows:
     jobs:
       # - welcome/run
       - print_greetings
-      - create_infrastructure
+      - configure_infrastructure
