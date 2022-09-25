@@ -105,8 +105,10 @@ workflows:
     jobs:
       # - welcome/run
       - print_greetings
-      - create_infrastructure
-      - smoke_test
+      - create_infrastructure:
+          requires:
+            - print_greetings
+      - smoke_test:
           requires:
             - create_infrastructure
 
